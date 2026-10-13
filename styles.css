@@ -27,3 +27,11 @@
 }
 @media(max-width:420px){.announcement{height:auto;min-height:34px;flex-wrap:wrap;line-height:1.5;padding:8px}.logo-symbol{font-size:31px}.logo-words{font-size:11px;letter-spacing:1.5px}.logo-words b{font-size:9px}.hero-copy{padding-top:64px}.age-panel{padding:22px}}
 @media(prefers-reduced-motion:reduce){.identity-card,.value-list article{transition:none}}
+
+/* Kilimani official brand palette and proportional logo */
+:root{--bg:#050505;--surface:#101010;--purple:#7132ff;--orange:#ff963c;--text:#fff}
+.site-header{background:#050505}
+.brand-logo{display:block;width:auto;max-width:min(280px,48vw);height:62px;object-fit:contain;object-position:left center}
+.logo-fallback{font-size:18px;font-weight:900;letter-spacing:1px;color:#fff}.logo-fallback b{color:var(--orange)}
+.announcement{background:#7132ff}.hero{background:radial-gradient(ellipse at 75% 45%,#231044 0%,#10091c 36%,#050505 75%)}
+@media(max-width:700px){.brand-logo{height:50px;max-width:65vw}}
