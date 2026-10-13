@@ -1,13 +1,25 @@
-# Kilimani Vapes Kenya
+# Kilimani Vapes Kenya — Brand Website
 
-A responsive, informational brand website for adults. No product ordering, payment, checkout, or online sales.
+Completely redesigned, lightweight, responsive, adult-gated brand-information site.
 
-## Deploy to Cloudflare Pages
+## Stack
 
-1. Open Cloudflare Dashboard > Workers & Pages > Create > Pages > Connect to Git.
-2. Select GitHub repository `evancekirigia-93/Kilimani-Vapes-Shop`.
-3. Choose production branch `main`.
-4. Framework preset: **None**. Build command: **leave empty**. Output directory: **/** (repository root).
-5. Deploy. Future commits to `main` trigger automatic redeployment.
+- Plain HTML, CSS and JavaScript — no dependencies or build step
+- Accessible mobile menu, reduced-motion support, responsive editorial layout
+- Client-side adult confirmation (not identity verification)
+- No product listings, sales, ordering, cart, payment or checkout functionality
 
-Static HTML/CSS/JavaScript; no environment variables needed.
+## Cloudflare Pages deployment
+
+Connect the GitHub repository `evancekirigia-93/Kilimani-Vapes-Shop` to Cloudflare Pages.
+
+- Production branch: `main`
+- Framework preset: None
+- Build command: leave empty
+- Output directory: `/` (repository root)
+
+Each push to main should trigger a new Cloudflare Pages deployment if Git integration is already configured.
+
+## Notes
+
+No API keys or secrets are required. Replace placeholder company contact copy only with verified details. Verify local compliance before publishing age-restricted brand material. This age gate is a UX acknowledgement, not an identity or legal age verification service.
