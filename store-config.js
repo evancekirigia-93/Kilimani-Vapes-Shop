@@ -154,5 +154,8 @@ window.KILIMANI_CONFIG = {
   "footerTagline": "Good taste. Great company.",
   "ink": "#1c1d18",
   "background": "#ffffff",
-  "cream": "#f7f5ef"
+  "cream": "#f7f5ef",
+  "partnerTitle": "Want to become a partner?",
+  "partnerDescription": "Bring your brand, your products or your ideas. Let's explore what we can build together.",
+  "partnerContact": "Partnership contact details coming soon."
 };
