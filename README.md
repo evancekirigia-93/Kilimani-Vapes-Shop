@@ -33,12 +33,12 @@ Existing static Vercel/Cloudflare Pages deployments do not automatically run thi
 
 ## Catalogue and checkout
 
-Eight sample products across seven categories demonstrate search, category filtering, price/name sorting, product details, persistent bag quantities and checkout review. All prices are indicative. Bottle artwork is illustrative, not official product photography.
+Twelve sample products across seven categories demonstrate search, category filtering, price/name sorting, product details, persistent bag quantities and checkout review. All prices are indicative. Bottle artwork is illustrative, not official product photography.
 
 Checkout is explicitly a preview: it never submits an order, charges a customer or stores their contact details. Live commerce requires verified products/stock/prices, business contact information, delivery fees and areas, an order backend and a payment-provider integration. No business facts or payment credentials have been invented.
 
 ## Validation
 
-Validated in Chromium at desktop and 390px mobile widths: eight products, search, category filtering, product details, bag persistence, checkout review, no horizontal overflow, local editor saves and product creation. Shared server checks cover unauthenticated writes, incorrect passwords, origin rejection, authenticated editing visible to a second browser, persistent JSON storage, malformed-product rejection and sign-out. No browser JavaScript errors occurred.
+Validated in Chromium at desktop and 390px mobile widths: twelve products, search, category filtering, product details, bag persistence, checkout review, no horizontal overflow, local editor saves and product creation. Shared server checks cover unauthenticated writes, incorrect passwords, origin rejection, authenticated editing visible to a second browser, persistent JSON storage, malformed-product rejection and sign-out. No browser JavaScript errors occurred.
 
-The Oaks & Corks reference could not be retrieved because outbound access returned HTTP 403. The design uses an original drinks-store layout and assets; no reference code, images or branding were copied.
+The Oaks & Corks live homepage was inspected for its compact header, adjacent banner/category layout, horizontal product shelves and store-information sections. The implementation retains Kilimani branding and original artwork. No reference source code, images or branding were copied. The featured banner has three manually selected slides; shelves have keyboard-accessible scroll buttons and touch scrolling. Delivery timings, availability and payment methods remain unverified and are not presented as business facts.
