@@ -107,29 +107,30 @@
   // Move a three-across category rail horizontally with a seamless loop.
   const categoryRail=$('categories'),categoryPanel=document.querySelector('.category-panel');
   const motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
-  let categoryAuto=cfg.categoryScroll.enabled&&!motionPreference.matches,categoryHovered=false,categoryFocused=false,categoryInView=false;
+  let categoryAuto=cfg.categoryScroll.enabled&&!motionPreference.matches&&!matchMedia('(max-width: 767px)').matches,categoryHovered=false,categoryFocused=false,categoryInView=false;
   let categoryFrame=null,categoryLastTime=0,categoryPosition=categoryRail.scrollLeft,categoryLoopDistance=0,categoryTouchTimer=null,categoryTouchUntil=0,categoryLastWritten=categoryRail.scrollLeft;
   const autoControl=document.createElement('button');autoControl.type='button';autoControl.className='category-auto-control';categoryRail.after(autoControl);
-  function categoryCanRun(){return categoryAuto&&!categoryHovered&&!categoryFocused&&Date.now()>=categoryTouchUntil&&!document.hidden&&!categoryPanel.hidden&&categoryInView&&!document.querySelector('dialog[open]')&&categoryRail.scrollWidth>categoryRail.clientWidth+1;}
+  function categoryCanRun(){return !matchMedia('(max-width: 767px)').matches&&categoryAuto&&!categoryHovered&&!categoryFocused&&Date.now()>=categoryTouchUntil&&!document.hidden&&!categoryPanel.hidden&&categoryInView&&!document.querySelector('dialog[open]')&&categoryRail.scrollWidth>categoryRail.clientWidth+1;}
   function stopCategoryAnimation(){if(categoryFrame!==null)cancelAnimationFrame(categoryFrame);categoryFrame=null;categoryLastTime=0;categoryPosition=categoryRail.scrollLeft;}
   function categoryTick(time){categoryFrame=null;if(!categoryCanRun()){categoryLastTime=0;return;}const elapsed=categoryLastTime?Math.min(50,time-categoryLastTime):0;categoryLastTime=time;const max=categoryRail.scrollWidth-categoryRail.clientWidth;categoryPosition+=cfg.categoryScroll.speed*elapsed/1000;if(categoryLoopDistance>0&&categoryPosition>=categoryLoopDistance)categoryPosition%=categoryLoopDistance;else categoryPosition=Math.min(categoryPosition,max);categoryRail.scrollLeft=categoryPosition;categoryLastWritten=categoryRail.scrollLeft;categoryFrame=requestAnimationFrame(categoryTick);}
   function startCategoryAnimation(){if(categoryFrame===null&&categoryCanRun()){categoryPosition=categoryRail.scrollLeft;categoryLastTime=0;categoryFrame=requestAnimationFrame(categoryTick);}}
   function updateCategoryControl(){
     stopCategoryAnimation();
-    const visible=matchMedia('(max-width: 700px)').matches?cfg.categoryScroll.mobileVisible:cfg.categoryScroll.visible;
+    const isPhone=matchMedia('(max-width: 767px)').matches;\n    if(isPhone)categoryAuto=false;\n    const visible=matchMedia('(max-width: 700px)').matches?cfg.categoryScroll.mobileVisible:cfg.categoryScroll.visible;
     categoryRail.style.setProperty('--category-count',visible);
     const circle=categoryRail.querySelector('.category');
     if(circle){const styles=getComputedStyle(categoryRail),height=circle.getBoundingClientRect().height+(parseFloat(styles.paddingTop)||0)+(parseFloat(styles.paddingBottom)||0);categoryRail.style.height=height+'px';categoryRail.style.maxHeight=height+'px';}
-    updateCategoryLoop();autoControl.textContent=categoryAuto?'Pause scrolling':'Play categories';autoControl.setAttribute('aria-label',categoryAuto?'Pause category scrolling':'Start category scrolling');autoControl.setAttribute('aria-pressed',String(categoryAuto));autoControl.hidden=categoryRail.scrollWidth<=categoryRail.clientWidth;startCategoryAnimation();
+    updateCategoryLoop();autoControl.textContent=categoryAuto?'Pause scrolling':'Play categories';autoControl.setAttribute('aria-label',categoryAuto?'Pause category scrolling':'Start category scrolling');autoControl.setAttribute('aria-pressed',String(categoryAuto));autoControl.hidden=isPhone||categoryRail.scrollWidth<=categoryRail.clientWidth;startCategoryAnimation();
   }
   function updateCategoryLoop(){
+    if(matchMedia('(max-width: 767px)').matches){categoryRail.querySelectorAll('[data-loop-copy]').forEach(node=>node.remove());categoryLoopDistance=0;return;}
     const originals=[...categoryRail.querySelectorAll('.category:not([data-loop-copy])')];
     if(!categoryRail.querySelector('[data-loop-copy]')&&originals.length&&(originals.at(-1).getBoundingClientRect().right-originals[0].getBoundingClientRect().left)>categoryRail.clientWidth){
       for(const original of originals){const copy=original.cloneNode(true);copy.dataset.loopCopy='true';copy.setAttribute('aria-hidden','true');copy.tabIndex=-1;for(const node of copy.querySelectorAll('[id]')){const id=node.id;node.id=id+'-loop';copy.querySelectorAll('[fill]').forEach(child=>{if(child.getAttribute('fill')==='url(#'+id+')')child.setAttribute('fill','url(#'+id+'-loop)');});}categoryRail.append(copy);}
     }
     const firstCopy=categoryRail.querySelector('[data-loop-copy]');categoryLoopDistance=firstCopy?firstCopy.getBoundingClientRect().left-originals[0].getBoundingClientRect().left:0;
   }
-  autoControl.onclick=()=>{categoryAuto=!categoryAuto;categoryHovered=false;categoryTouchUntil=0;updateCategoryControl();};
+  autoControl.onclick=()=>{if(matchMedia('(max-width: 767px)').matches)return;categoryAuto=!categoryAuto;categoryHovered=false;categoryTouchUntil=0;updateCategoryControl();};
   categoryPanel.addEventListener('pointerenter',event=>{if(event.pointerType!=='mouse')return;categoryHovered=true;stopCategoryAnimation();});
   categoryPanel.addEventListener('pointerleave',()=>{categoryHovered=false;startCategoryAnimation();});
   categoryRail.addEventListener('focusin',()=>{categoryFocused=true;stopCategoryAnimation();});
