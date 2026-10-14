@@ -140,3 +140,8 @@ html{scroll-padding-top:125px}.topline{padding:7px 20px;font-size:9px;letter-spa
 .added-popup-actions [data-added-checkout]{background:linear-gradient(120deg,#e6250b,#ff741e);color:white;border:0}
 @media(max-width:767px){#addedCartPopup{top:66px;right:10px}}
 @media(prefers-reduced-motion:reduce){#addedCartPopup{transition:none}}
+
+/* Native mobile swiping must not fight the page's vertical scroll. */
+@media(max-width:767px){
+ .category-panel .categories{touch-action:pan-x pan-y !important;scroll-snap-type:none !important;scroll-behavior:auto !important;overscroll-behavior-x:contain !important;}
+}
