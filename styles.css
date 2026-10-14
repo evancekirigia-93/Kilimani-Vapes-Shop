@@ -99,3 +99,29 @@ html{scroll-padding-top:125px}.topline{padding:7px 20px;font-size:9px;letter-spa
   header nav { overflow-y: visible !important; }
   body { overflow-y: auto !important; -webkit-overflow-scrolling: touch; }
 }
+
+/* Mobile category carousel: native, single-axis momentum scrolling.
+   Avoid gesture conflicts and costly card transitions. */
+@media (max-width: 767px) {
+  .category-panel .categories {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    touch-action: pan-x !important;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: auto !important;
+    scroll-snap-type: none !important;
+    overscroll-behavior-x: auto !important;
+    scrollbar-width: none;
+    contain: layout style;
+  }
+  .category-panel .categories::-webkit-scrollbar { display: none; }
+  .category-panel .category {
+    flex-shrink: 0 !important;
+    scroll-snap-align: none !important;
+    transition: none !important;
+    animation: none !important;
+    will-change: auto !important;
+  }
+}
