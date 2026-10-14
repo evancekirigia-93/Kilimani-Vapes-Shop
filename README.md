@@ -39,7 +39,7 @@ The active PNG is `assets/kilimani-logo.png`, edited from the supplied reference
 
 ### Static mode versus shared server
 
-**Static hosting:** public pages always load the published `store-config.js`, ignoring browser-only drafts so mobile and desktop show the same content. Admin storefront links open `?preview=local` explicitly to inspect unsent drafts. Edits are local to the current browser. Export `store-config.js`, replace the file in this existing repository and use its existing deployment. Local image uploads are embedded as data URLs; browser storage limits apply. The dashboard explicitly labels this mode as Local preview.
+**Static hosting:** edits are local to the current browser. Export `store-config.js`, replace the file in this existing repository and use its existing deployment. Local image uploads are embedded as data URLs; browser storage limits apply. The dashboard explicitly labels this mode as Local preview.
 
 **Node server:** set `KILIMANI_ADMIN_PASSWORD` securely through the host's environment settings. No default password is committed. Without this variable, public browsing works but shared writes and uploads are disabled. Sign in to make changes visible to all visitors after refresh, without redeploying. Shared configuration takes precedence over local previews. Authentication uses HttpOnly SameSite cookies, origin checks and login rate limits. Sessions expire after eight hours and clear on restart. Conflicting configuration revisions are rejected rather than silently overwriting another admin's changes.
 

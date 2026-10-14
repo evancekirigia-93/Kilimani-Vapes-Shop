@@ -20,7 +20,6 @@
   }
   function message(text, error=false) { $('status').textContent=text; $('status').classList.toggle('error',error); $('toast').textContent=text; $('toast').hidden=false; clearTimeout(toastTimer); toastTimer=setTimeout(()=>$('toast').hidden=true,4200); }
   function connection() {
-    document.querySelectorAll('a[href^="index.html"]').forEach(link=>{link.href=shared?'index.html':'index.html?preview=local';});
     $('modeBadge').textContent=shared?'Shared store':'Local preview';
     $('connectionLabel').textContent=shared?(authenticated?'Signed in · shared saves':'Server connected'):'Browser preview';
     document.querySelector('.sidebar-dot').classList.toggle('connected',shared);

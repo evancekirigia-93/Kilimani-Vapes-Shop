@@ -15,20 +15,6 @@ const {spawn}=require('node:child_process');
     page.on('dialog',dialog=>dialog.accept());
     const config=async()=>(await fetch(base+'/api/config')).json();
     async function saveForm(selector){await page.locator(selector).evaluate(form=>form.requestSubmit());await page.waitForFunction(()=>document.getElementById('status').textContent.startsWith('Changes saved.'));}
-    // Browser drafts must never replace published content on the public URL.
-    const published=await config();
-    const draftContext=await browser.newContext();
-    await draftContext.addInitScript(value=>localStorage.setItem('kilimani-config',JSON.stringify(value)),{...published,partnerTitle:'Unpublished browser draft'});
-    await draftContext.route('**/api/config',route=>route.fulfill({status:404,body:'Static hosting'}));
-    const draftPage=await draftContext.newPage();
-    for(const width of [1440,390]){
-      await draftPage.setViewportSize({width,height:900});
-      await draftPage.goto(base);
-      assert.equal(await draftPage.locator('#partnerTitle').innerText(),published.partnerTitle);
-    }
-    await draftPage.goto(base+'/?preview=local');
-    assert.equal(await draftPage.locator('#partnerTitle').innerText(),'Unpublished browser draft');
-    await draftContext.close();
     await page.goto(base+'/admin.html');await page.locator('#adminPassword').fill(password);await page.getByRole('button',{name:'Sign in',exact:true}).click();await page.locator('#logoutButton').waitFor({state:'visible'});
     assert.deepEqual(await page.locator('.stat-card strong').allTextContents(),['12','7','3']);
     await page.getByRole('button',{name:'Categories',exact:true}).click();await page.locator('#categoryForm [name=name]').fill('Tequila');await saveForm('#categoryForm');assert.ok((await config()).categories.includes('Tequila'));

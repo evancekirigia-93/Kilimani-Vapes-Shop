@@ -4,9 +4,8 @@
   const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const money=value=>'KSh '+Number(value).toLocaleString('en-KE',{maximumFractionDigits:2});
   let cfg=window.KILIMANI_CONFIG;
-  const localPreview=new URLSearchParams(location.search).get('preview')==='local';
-  if(localPreview)try{const local=JSON.parse(localStorage.getItem('kilimani-config'));if(local&&Array.isArray(local.products)&&Array.isArray(local.categories))cfg={...cfg,...local};}catch{}
-  try{const response=await fetch('/api/config',{cache:'no-store'});if(response.ok){cfg=await response.json();window.KILIMANI_SHARED=true;}}catch{}
+  try{const local=JSON.parse(localStorage.getItem('kilimani-config'));if(local&&Array.isArray(local.products)&&Array.isArray(local.categories))cfg={...cfg,...local};}catch{}
+  try{const response=await fetch('/api/config');if(response.ok){cfg=await response.json();window.KILIMANI_SHARED=true;}}catch{}
   cfg=Model.normalize(cfg);
   const ui=cfg.ui,categories=Model.visibleCategories(cfg);
   const products=cfg.products.filter(p=>p.published&&categories.includes(p.category)).map(p=>({...p,basePrice:p.price,price:Model.price(cfg,p)}));
