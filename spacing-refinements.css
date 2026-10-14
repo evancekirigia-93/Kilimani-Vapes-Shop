@@ -33,3 +33,9 @@
  .shop-intro{padding-left:10px;padding-right:10px}
  .category-panel.section{padding:12px 10px}
 }
+
+/* Smooth category rail: prevent snap/jumps while preserving native swipe. */
+.category-panel .categories{scroll-behavior:auto!important;scroll-snap-type:none!important;overflow-x:auto!important;overflow-y:hidden!important;overscroll-behavior-x:contain;scrollbar-width:none}
+.category-panel .categories::-webkit-scrollbar{display:none}
+.category-panel .category{flex-shrink:0!important;scroll-snap-align:none!important}
+@media(max-width:767px){.category-panel .categories{touch-action:pan-x pan-y!important}}
