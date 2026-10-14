@@ -1,0 +1,35 @@
+/* Responsive spacing refinements: preserve original typography, banner image sizes and animations. */
+@media(min-width:1024px){
+ .shop-intro{gap:14px;padding:0 20px 10px}
+ .section{padding-top:42px;padding-bottom:42px}
+ .section-heading{margin-bottom:20px}
+ .category-panel.section{padding:19px 17px}
+ .category-panel .section-heading{margin-bottom:10px}
+ .product-grid{gap:20px 16px}
+ .product-meta{margin-top:11px}
+ .browse-callout{margin-top:22px;margin-bottom:22px}
+}
+@media(min-width:768px) and (max-width:1023px){
+ .shop-intro{gap:12px;padding:0 16px 10px}
+ .section{padding:34px 4%}
+ .section-heading{margin-bottom:17px}
+ .category-panel.section{padding:16px 14px}
+ .product-grid{gap:18px 13px}
+}
+@media(max-width:767px){
+ .shop-intro{gap:12px;padding:0 12px 12px}
+ .section{padding:27px 14px}
+ .section-heading{margin-bottom:15px;gap:10px}
+ .category-panel.section{padding:14px 12px}
+ .category-panel .section-heading{margin-bottom:9px}
+ .category-panel .section-heading p{margin-top:4px}
+ .product-grid{gap:16px 10px}
+ .product-meta{margin:9px 0 5px}
+ .product h3{margin-bottom:5px}
+ .browse-callout{margin-top:16px;margin-bottom:16px}
+}
+@media(max-width:380px){
+ .section{padding-left:11px;padding-right:11px}
+ .shop-intro{padding-left:10px;padding-right:10px}
+ .category-panel.section{padding:12px 10px}
+}
