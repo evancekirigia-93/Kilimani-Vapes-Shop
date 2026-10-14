@@ -33,6 +33,17 @@
     $('adminLogo').innerHTML=logo?`<img src="${esc(logo)}" alt="Kilimani original logo">`:'K<span>V</span>';
   }
   try {const session=await api('/api/session'); if(session.server){shared=true;authenticated=session.authenticated;configured=session.configured;config=Model.normalize({...defaults,...await api('/api/config')});}} catch(error) { if(shared) message('Unable to read shared store configuration. Reload before editing.',true); }
+  // Always load the published Supabase record as the initial admin view.
+  // Local drafts remain available for recovery; publishing requires authorized shared writes.
+  try {
+    const response=await fetch('https://ymnzlsmttwcgitkvsmev.supabase.co/rest/v1/storefront_config?id=eq.kilimani&select=config',{
+      headers:{apikey:'sb_publishable_5PNJHSXGSOQUat2EAOhvuA_2Lq0WQwR'},cache:'no-store'
+    });
+    if(response.ok){
+      const rows=await response.json();
+      if(rows[0]?.config?.products?.length){config=Model.normalize(rows[0].config);}
+    }
+  } catch(error){console.warn('Supabase catalogue could not be loaded',error);}
   function nav() { $('adminNav').innerHTML=pages.map(([id,label,icon])=>`<button class="nav-item" data-tab="${id}" ${tab===id?'aria-current="page"':''}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${icon}"/></svg><span>${label}</span>${id==='orders'&&orders.length?`<span class="nav-count">${orders.length}</span>`:''}</button>`).join(''); }
   const field = (name,label,value='',type='text',extra='') => `<label class="field">${label}<input name="${name}" type="${type}" value="${esc(value)}" ${extra}></label>`;
   const area = (name,label,value='') => `<label class="field full">${label}<textarea name="${name}">${esc(value)}</textarea></label>`;
