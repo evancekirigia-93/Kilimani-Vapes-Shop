@@ -113,7 +113,7 @@
   const autoControl=document.createElement('button');autoControl.type='button';autoControl.className='category-auto-control';categoryRail.after(autoControl);
   function categoryCanRun(){return categoryAuto&&!categoryHovered&&!categoryFocused&&Date.now()>=categoryTouchUntil&&!document.hidden&&!categoryPanel.hidden&&categoryInView&&!document.querySelector('dialog[open]')&&categoryRail.scrollWidth>categoryRail.clientWidth+1;}
   function stopCategoryAnimation(){if(categoryFrame!==null)cancelAnimationFrame(categoryFrame);categoryFrame=null;categoryLastTime=0;categoryPosition=categoryRail.scrollLeft;}
-  function categoryTick(time){categoryFrame=null;if(!categoryCanRun()){categoryLastTime=0;return;}const elapsed=categoryLastTime?Math.min(50,time-categoryLastTime):0;categoryLastTime=time;const max=categoryRail.scrollWidth-categoryRail.clientWidth;categoryPosition+=cfg.categoryScroll.speed*elapsed/1000;if(categoryLoopDistance>0&&categoryPosition>=categoryLoopDistance)categoryPosition%=categoryLoopDistance;else categoryPosition=Math.min(categoryPosition,max);categoryRail.scrollLeft=categoryPosition;categoryLastWritten=categoryRail.scrollLeft;categoryFrame=requestAnimationFrame(categoryTick);}
+  function categoryTick(time){categoryFrame=null;if(!categoryCanRun()){categoryLastTime=0;return;}const elapsed=categoryLastTime?Math.min(50,time-categoryLastTime):0;categoryLastTime=time;const max=categoryRail.scrollWidth-categoryRail.clientWidth;categoryPosition+=Math.max(32,Number(cfg.categoryScroll.speed)||32)*elapsed/1000;if(categoryLoopDistance>0&&categoryPosition>=categoryLoopDistance)categoryPosition%=categoryLoopDistance;else categoryPosition=Math.min(categoryPosition,max);categoryRail.scrollLeft=categoryPosition;categoryLastWritten=categoryRail.scrollLeft;categoryFrame=requestAnimationFrame(categoryTick);}
   function startCategoryAnimation(){if(categoryFrame===null&&categoryCanRun()){categoryPosition=categoryRail.scrollLeft;categoryLastTime=0;categoryFrame=requestAnimationFrame(categoryTick);}}
   function updateCategoryControl(){
     stopCategoryAnimation();
@@ -137,7 +137,7 @@
   categoryPanel.addEventListener('pointerleave',()=>{categoryHovered=false;startCategoryAnimation();});
   categoryRail.addEventListener('focusin',()=>{categoryFocused=true;stopCategoryAnimation();});
   categoryRail.addEventListener('focusout',event=>{categoryFocused=categoryRail.contains(event.relatedTarget);startCategoryAnimation();});
-  function pauseForCategoryInteraction(){categoryTouchUntil=Date.now()+8000;stopCategoryAnimation();clearTimeout(categoryTouchTimer);categoryTouchTimer=setTimeout(startCategoryAnimation,8050);}
+  function pauseForCategoryInteraction(){categoryTouchUntil=Date.now()+1800;stopCategoryAnimation();clearTimeout(categoryTouchTimer);categoryTouchTimer=setTimeout(startCategoryAnimation,1850);}
   for(const event of ['pointerdown','wheel','touchstart'])categoryRail.addEventListener(event,pauseForCategoryInteraction,{passive:true});
   categoryRail.addEventListener('scroll',()=>{if(categoryFrame===null||Math.abs(categoryRail.scrollLeft-categoryLastWritten)>1)categoryPosition=categoryRail.scrollLeft;},{passive:true});
   motionPreference.addEventListener('change',()=>{categoryAuto=cfg.categoryScroll.enabled&&!motionPreference.matches;updateCategoryControl();});
