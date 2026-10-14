@@ -81,3 +81,7 @@ node tests/category-scroll.browser.cjs
 Use the same environment variables with `node tests/banner-carousel.browser.cjs` to check automatic banners, hover pause, manual controls, reduced motion and portrait/landscape/full-width layouts up to 2560px.
 
 The suites use isolated temporary storage and generated test credentials; they do not modify the running store. They verify migration, best-price rules, schema validation, authentication/origin checks, stale-write rejection, byte-preserving uploads, order privacy/statuses, dashboard CRUD, cross-browser changes, editable popup, banner/row rendering, bag/checkout preview, visibility, deletion cleanup and responsive layouts from 320–1440px. Storefront artwork is original or supplied by the user; reference branding and photos are not copied.
+
+## Deployment cache refresh
+
+Storefront and admin assets use a release query version in their HTML links so browsers request the matching CSS and JavaScript after an update. `_headers` asks Cloudflare static hosting to revalidate cached files. Deploy the existing worker from the latest `main` commit; these headers do not publish a deployment by themselves. For a previously cached HTML page, open the site with `?v=20261014-banner-only` once. Local development through `server.js` already returns `Cache-Control: no-cache` for application files.
