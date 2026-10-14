@@ -76,7 +76,26 @@
     const input=event.target;
     if(input.id==='productCategory'){ $('productList').innerHTML=productList($('productSearch').value,input.value);return; }
     if(input.dataset.order){try{await api('/api/orders/'+encodeURIComponent(input.dataset.order),'PATCH',{status:input.value});await loadOrders();message('Order status updated.');}catch(e){message(e.message,true);render();}return;}
-    if(input.dataset.upload){const file=input.files[0];if(!file)return;try{if(!['image/png','image/jpeg','image/webp'].includes(file.type)||file.size>2*1024*1024)throw Error('Choose a PNG, JPG or WebP image up to 2 MB.');const data=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(Error('Unable to read image'));reader.readAsDataURL(file);});await new Promise((resolve,reject)=>{const image=new Image();image.onload=resolve;image.onerror=()=>reject(Error('Invalid image file'));image.src=data;});let url=data;if(shared){if(!authenticated)throw Error('Sign in before uploading images.');url=(await api('/api/uploads','POST',{data})).url;}const holder=input.closest('.field'),target=holder.querySelector(`[name="${input.dataset.upload}"]`);target.value=url;let preview=holder.querySelector('.image-preview');if(!preview){preview=document.createElement('div');preview.className='image-preview'+(input.dataset.upload==='logoUrl'?' logo':'');holder.insertBefore(preview,input);}preview.innerHTML=`<img src="${esc(url)}" alt="Uploaded original image"><small>Original file preserved. Save this form to use it.</small>`;dirty=true;message('Image loaded unchanged. Save the form to apply it.');}catch(e){message(e.message,true);} }
+    if(input.dataset.upload){
+      const file=input.files[0];if(!file)return;
+      const holder=input.closest('.field'),target=holder.querySelector(`[name="${input.dataset.upload}"]`);
+      let preview=holder.querySelector('.image-preview');
+      holder.dataset.uploading='true';
+      try{
+        if(!['image/png','image/jpeg','image/webp'].includes(file.type)||file.size>2*1024*1024)throw Error('Choose a PNG, JPG or WebP image up to 2 MB.');
+        const data=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(Error('Unable to read image'));reader.readAsDataURL(file);});
+        const image=new Image();image.src=data;await image.decode();
+        if(!preview){preview=document.createElement('div');preview.className='image-preview'+(input.dataset.upload==='logoUrl'?' logo':'');holder.insertBefore(preview,input);}
+        image.alt='Selected image preview';preview.replaceChildren(image);
+        const note=document.createElement('small');note.textContent=`${file.name} · ${image.naturalWidth} × ${image.naturalHeight}px. ${shared?'Uploading…':'Ready to save.'}`;preview.append(note);
+        let url=data;
+        if(shared){if(!authenticated)throw Error('Sign in before uploading images.');url=(await api('/api/uploads','POST',{data})).url;}
+        target.value=url;dirty=true;
+        note.textContent=`${file.name} · ${image.naturalWidth} × ${image.naturalHeight}px. Original image preserved. Save this form to apply it.`;
+        message('Image preview ready. Save the form to apply it.');
+      }catch(e){if(preview){const note=preview.querySelector('small');if(note)note.textContent='Upload failed. This selection has not been applied. '+e.message;}message(e.message,true);}
+      finally{delete holder.dataset.uploading;input.value='';}
+    }
     if(input.id==='importConfig'){try{const file=input.files[0];if(!file||file.size>8*1024*1024)throw Error('Choose a JSON backup under 8 MB.');const next=Model.normalize(JSON.parse(await file.text()));if(confirm('Replace the current configuration with this backup?'))await save(next,'Backup imported.');}catch(e){message(e.message,true);}}
   });
   $('panel').addEventListener('click',async event=>{
@@ -96,7 +115,7 @@
     if(button.id==='restoreDefaults'&&confirm('Replace the current configuration with the repository defaults? Export a backup first if needed.'))await save(structuredClone(defaults),'Repository configuration restored.');
   });
   $('panel').addEventListener('submit',async event=>{
-    event.preventDefault();const form=event.target,v=formValues(form),next=structuredClone(config);
+    event.preventDefault();const form=event.target;if(form.querySelector('[data-uploading]')){message('Wait for the image upload to finish before saving.',true);return;}const v=formValues(form),next=structuredClone(config);
     try{
       if(form.id==='categoryForm'){const name=v.name.trim();if(next.categories.some(n=>n===name&&n!==editing))throw Error('A category with this name already exists.');if(editing!==null){next.categories=next.categories.map(n=>n===editing?name:n);next.categoryDetails=next.categoryDetails.map(d=>d.name===editing?{name,imageUrl:v.imageUrl.trim(),visible:v.visible}:d);next.products.forEach(p=>{if(p.category===editing)p.category=name;});next.rows.forEach(r=>{if(r.category===editing)r.category=name;});}else{next.categories.push(name);next.categoryDetails.push({name,imageUrl:v.imageUrl.trim(),visible:v.visible});}}
       if(form.id==='productForm')upsert(next.products,{id:editing??newId(next.products),name:v.name.trim(),category:v.category,price:Number(v.price),size:v.size.trim(),stock:v.stock===''?null:Number(v.stock),color:v.color,description:v.description.trim(),imageUrl:v.imageUrl.trim(),published:v.published});

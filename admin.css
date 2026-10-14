@@ -2,3 +2,8 @@
 .content-jumps{display:flex;gap:10px;flex-wrap:wrap;margin:-5px 0 22px}.content-jumps a{font-size:12px;padding:9px 14px;border:1px solid var(--border);border-radius:20px;background:var(--paper)}.content-jumps a:hover{background:var(--peach)}.settings-group,#bannerForm,#faqEditors{scroll-margin-top:20px}
 .admin-sidebar{min-width:0}@media(max-width:500px){.mode-badge{display:none}.admin-header{gap:10px}.admin-brand{font-size:16px}.admin-brand small{font-size:9px}.admin-logo.has-image{width:65px;height:37px}.header-actions{flex-shrink:0}}
 .item-image,.image-preview:not(.logo) img{background:#fff}
+
+/* Keep selected artwork legible, fitted in full, before it is saved. */
+.image-preview,.image-preview.logo{align-items:center}
+.image-preview img,.image-preview.logo img{width:min(100%,320px);height:180px;object-fit:contain;background:#fff;padding:10px;filter:none;opacity:1;mix-blend-mode:normal}
+.banner-card img{background:#fff;object-fit:contain;filter:none;opacity:1}
