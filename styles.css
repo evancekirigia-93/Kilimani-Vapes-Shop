@@ -87,3 +87,15 @@ html{scroll-padding-top:125px}.topline{padding:7px 20px;font-size:9px;letter-spa
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
 }
+
+/* Phone fix: a sticky header can trap vertical touch gestures on mobile browsers.
+   Keep the desktop header unchanged, but let the phone header scroll naturally. */
+@media (max-width: 767px) {
+  header { position: relative !important; top: auto !important; }
+  header, .header-main, header nav, .topline {
+    touch-action: pan-y !important;
+    overscroll-behavior: auto !important;
+  }
+  header nav { overflow-y: visible !important; }
+  body { overflow-y: auto !important; -webkit-overflow-scrolling: touch; }
+}
