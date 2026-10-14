@@ -17,23 +17,20 @@
       if(saved && Array.isArray(saved.products)){cfg=saved;window.KILIMANI_LOCAL_DRAFT_PRESENT=true;}
     } catch(error){console.warn('Could not read locally saved store data',error);}
   }
-  // A local admin draft must not be silently overwritten by the older
-  // Supabase snapshot. The shared version remains the fallback on new devices.
-  if(!window.KILIMANI_LOCAL_DRAFT_PRESENT){
-    // Published cross-device catalogue from Supabase; the desktop's existing
-    // local draft is retained until a shared catalogue has been populated.
-    try {
-      const url='https://ymnzlsmttwcgitkvsmev.supabase.co/rest/v1/storefront_config?id=eq.kilimani&select=config';
-      const response=await fetch(url,{headers:{'apikey':'sb_publishable_5PNJHSXGSOQUat2EAOhvuA_2Lq0WQwR'},cache:'no-store'});
-      if(response.ok){
-        const records=await response.json();
-        if(Array.isArray(records)&&records[0]?.config?.products?.length){
-          cfg=records[0].config;
-          window.KILIMANI_SHARED=true;
-        }
+  // The published Supabase catalogue is authoritative for visitors on every
+  // device, even if an old browser-local admin draft exists. Local drafts are
+  // kept intact for recovery/export, but must not shadow published images.
+  try {
+    const url='https://ymnzlsmttwcgitkvsmev.supabase.co/rest/v1/storefront_config?id=eq.kilimani&select=config';
+    const response=await fetch(url,{headers:{'apikey':'sb_publishable_5PNJHSXGSOQUat2EAOhvuA_2Lq0WQwR'},cache:'no-store'});
+    if(response.ok){
+      const records=await response.json();
+      if(Array.isArray(records)&&records[0]?.config?.products?.length){
+        cfg=records[0].config;
+        window.KILIMANI_SHARED=true;
       }
-    } catch(error){console.warn('Shared catalogue unavailable; keeping existing catalogue',error);}
     }
+  } catch(error){console.warn('Published catalogue unavailable; retaining fallback',error);}
   cfg=Model.normalize(cfg);
   const ui=cfg.ui,categories=Model.visibleCategories(cfg);
   const products=cfg.products.filter(p=>p.published&&categories.includes(p.category)).map(p=>({...p,basePrice:p.price,price:Model.price(cfg,p)}));
