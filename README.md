@@ -85,3 +85,5 @@ The suites use isolated temporary storage and generated test credentials; they d
 ## Deployment cache refresh
 
 Storefront and admin assets use a release query version in their HTML links so browsers request the matching CSS and JavaScript after an update. `_headers` asks Cloudflare static hosting to revalidate cached files. Deploy the existing worker from the latest `main` commit; these headers do not publish a deployment by themselves. For a previously cached HTML page, open the site with `?v=20261014-banner-only` once. Local development through `server.js` already returns `Cache-Control: no-cache` for application files.
+
+Browser-only drafts use IndexedDB to support larger image collections. Existing localStorage drafts migrate automatically; the legacy copy is removed only after a successful save. These drafts remain local to the device.

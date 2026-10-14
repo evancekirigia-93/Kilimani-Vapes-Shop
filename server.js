@@ -23,7 +23,7 @@ const sessions = new Map(), attempts = new Map();
 const maxAge = 8*60*60*1000;
 const secure = process.env.KILIMANI_SECURE_COOKIES === 'true';
 const mime = {'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.webp':'image/webp','.svg':'image/svg+xml'};
-const files = new Map(['index.html','styles.css','script.js','store-config.js','store-model.js','admin.html','admin.css','admin.js'].map(file=>['/'+file,file]));
+const files = new Map(['index.html','styles.css','script.js','store-config.js','store-model.js','draft-storage.js','admin.html','admin.css','admin.js'].map(file=>['/'+file,file]));
 files.set('/','index.html');
 function config() { return Model.normalize({...defaults,...(fs.existsSync(configFile)?JSON.parse(fs.readFileSync(configFile,'utf8')):{})}); }
 function etag(c) {return '"'+crypto.createHash('sha256').update(JSON.stringify(c)).digest('hex')+'"';}
