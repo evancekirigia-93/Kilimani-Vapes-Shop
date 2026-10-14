@@ -125,3 +125,18 @@ html{scroll-padding-top:125px}.topline{padding:7px 20px;font-size:9px;letter-spa
     will-change: auto !important;
   }
 }
+
+/* Compact cart confirmation: visible above the storefront, not a blocking modal. */
+#addedCartPopup{position:fixed;top:84px;right:16px;width:min(320px,calc(100vw - 24px));z-index:9999;background:#fff;color:#182b28;border:1px solid #f3d6c3;border-radius:14px;box-shadow:0 12px 34px #0003;padding:14px;opacity:0;visibility:hidden;transform:translateY(-10px);transition:opacity .2s ease,transform .2s ease,visibility .2s}
+#addedCartPopup.is-visible{opacity:1;visibility:visible;transform:translateY(0)}
+.added-popup-close{position:absolute;right:10px;top:7px;background:transparent;color:#666;font-size:23px;padding:4px 8px}
+.added-popup-title{color:#16824b;font-size:14px;font-weight:800;padding:0 25px 10px 0}
+.added-popup-product{display:flex;align-items:center;gap:12px;font-size:13px;padding-bottom:12px}
+.added-popup-product img,.added-popup-placeholder{width:56px;height:62px;object-fit:contain;border:1px solid #eee;border-radius:9px;flex-shrink:0}
+.added-popup-product strong{display:block;line-height:1.35}
+.added-popup-product small{display:block;margin-top:6px;color:#475569}
+.added-popup-actions{display:flex;gap:8px}
+.added-popup-actions button{flex:1;border:1px solid #f06422;border-radius:8px;background:white;color:#e65a17;font-size:12px;font-weight:700;padding:11px 6px}
+.added-popup-actions [data-added-checkout]{background:linear-gradient(120deg,#e6250b,#ff741e);color:white;border:0}
+@media(max-width:767px){#addedCartPopup{top:66px;right:10px}}
+@media(prefers-reduced-motion:reduce){#addedCartPopup{transition:none}}
