@@ -3,9 +3,11 @@
   const $=id=>document.getElementById(id), Model=window.KilimaniStore;
   const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const money=value=>'KSh '+Number(value).toLocaleString('en-KE',{maximumFractionDigits:2});
+  // Production storefront always uses the published configuration, independent of device.
+  // Browser-only admin drafts are previews and must not override the public catalogue.
+  // On a configured store server, its published shared config remains authoritative.
   let cfg=window.KILIMANI_CONFIG;
-  try{const local=await window.KilimaniDrafts.read();if(local&&Array.isArray(local.products)&&Array.isArray(local.categories))cfg={...cfg,...local};}catch{}
-  try{const response=await fetch('/api/config');if(response.ok){cfg=await response.json();window.KILIMANI_SHARED=true;}}catch{}
+  try{const response=await fetch('/api/config',{cache:'no-store'});if(response.ok){cfg=await response.json();window.KILIMANI_SHARED=true;}}catch{}
   cfg=Model.normalize(cfg);
   const ui=cfg.ui,categories=Model.visibleCategories(cfg);
   const products=cfg.products.filter(p=>p.published&&categories.includes(p.category)).map(p=>({...p,basePrice:p.price,price:Model.price(cfg,p)}));
