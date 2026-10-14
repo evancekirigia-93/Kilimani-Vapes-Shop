@@ -117,7 +117,9 @@
   function startCategoryAnimation(){if(categoryFrame===null&&categoryCanRun()){categoryPosition=categoryRail.scrollLeft;categoryLastTime=0;categoryFrame=requestAnimationFrame(categoryTick);}}
   function updateCategoryControl(){
     stopCategoryAnimation();
-    const isPhone=matchMedia('(max-width: 767px)').matches;\n    if(isPhone)categoryAuto=false;\n    const visible=matchMedia('(max-width: 700px)').matches?cfg.categoryScroll.mobileVisible:cfg.categoryScroll.visible;
+    const isPhone=matchMedia('(max-width: 767px)').matches;
+    if(isPhone)categoryAuto=false;
+    const visible=matchMedia('(max-width: 700px)').matches?cfg.categoryScroll.mobileVisible:cfg.categoryScroll.visible;
     categoryRail.style.setProperty('--category-count',visible);
     const circle=categoryRail.querySelector('.category');
     if(circle){const styles=getComputedStyle(categoryRail),height=circle.getBoundingClientRect().height+(parseFloat(styles.paddingTop)||0)+(parseFloat(styles.paddingBottom)||0);categoryRail.style.height=height+'px';categoryRail.style.maxHeight=height+'px';}
