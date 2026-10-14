@@ -40,7 +40,6 @@
   if(cfg.aboutText||cfg.privacyPolicy||cfg.terms)document.querySelector('.footer-links').append(policies);
   document.querySelectorAll('.shop-questions details').forEach(e=>e.remove());
   document.querySelector('.shop-questions').insertAdjacentHTML('beforeend',cfg.faqs.filter(f=>f.published).sort((a,b)=>a.order-b.order).map((f,i)=>`<details ${i===0?'open':''}><summary>${esc(f.question)}</summary><p>${esc(f.answer)}</p></details>`).join(''));
-  $('heroBottles').innerHTML=products.slice(0,3).map(bottle).join('');
   $('categories').innerHTML=categories.map((name,i)=>{const d=cfg.categoryDetails.find(d=>d.name===name),image=Model.imageUrl(d?.imageUrl);return `<a class="category" href="#catalogue" data-category="${esc(name)}">${`<span class="category-art">${image?`<img src="${esc(image)}" alt="" loading="lazy">`:bottle(products.find(p=>p.category===name)||{name,category:name,size:'',color:'#506342'})}</span>`}<b>${esc(name)}</b></a>`;}).join('');
   $('categoryFilter').innerHTML=['All',...categories].map(c=>`<option value="${esc(c)}">${c==='All'?esc(ui.shopAll):esc(c)}</option>`).join('');
   document.querySelector('header nav').innerHTML=['All',...categories].map(c=>`<a href="#catalogue" data-category="${esc(c)}">${c==='All'?esc(ui.shopAll):esc(c)}</a>`).join('')+`<a href="#contact">${esc(ui.shopLink)}</a>`;
