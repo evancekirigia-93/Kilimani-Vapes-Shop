@@ -31,7 +31,7 @@ Open `/admin.html`. The navy sidebar, overview cards, peach forms and orange act
 - **Orders / Dispatch:** private server order lists and fulfilment-status changes. They stay empty until a separate order intake is connected. No fake orders or counts are seeded.
 - **Backup & export:** configuration JavaScript/JSON exports, import, advanced JSON editing and repository-default restoration.
 
-The homepage has a larger banner and a single horizontally scrollable row of circular categories. Original uploaded images use `object-fit: contain` and retain their aspect ratio, colours and bytes. No image is cropped or redrawn.
+The homepage has a larger banner and a vertically scrollable list of circular categories beside the banner on desktop and below it on smaller screens. Two or three category circles can be shown at once, selected in Website content → Category scrolling. Autoplay and its interval are editable there too. By default three circles are visible. The list advances every three seconds, pauses on hover/focus/touch, provides a pause/play control, and respects reduced-motion preferences. Original uploaded images use `object-fit: contain` and retain their aspect ratio, colours and bytes. No image is cropped or redrawn.
 
 ### Original logo
 
@@ -67,6 +67,15 @@ Browser integration suite (requires Playwright and Chromium available to the tes
 KILIMANI_PLAYWRIGHT_PATH=/path/to/playwright \
 CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium \
 node tests/admin.browser.cjs
+```
+
+Autoplay behavior can also be checked against a running default storefront:
+
+```sh
+KILIMANI_PLAYWRIGHT_PATH=/path/to/playwright \
+CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium \
+KILIMANI_TEST_URL=http://127.0.0.1:3001 \
+node tests/category-scroll.browser.cjs
 ```
 
 The suites use isolated temporary storage and generated test credentials; they do not modify the running store. They verify migration, best-price rules, schema validation, authentication/origin checks, stale-write rejection, byte-preserving uploads, order privacy/statuses, dashboard CRUD, cross-browser changes, editable popup, banner/row rendering, bag/checkout preview, visibility, deletion cleanup and responsive layouts from 320–1440px. Storefront artwork is original or supplied by the user; reference branding and photos are not copied.

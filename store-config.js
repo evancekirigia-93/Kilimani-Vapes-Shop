@@ -418,5 +418,10 @@ window.KILIMANI_CONFIG = {
       "order": 3
     }
   ],
-  "ageButtonText": "#1c1d18"
+  "ageButtonText": "#1c1d18",
+  "categoryScroll": {
+    "enabled": true,
+    "visible": 3,
+    "seconds": 3
+  }
 };

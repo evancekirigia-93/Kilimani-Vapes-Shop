@@ -38,6 +38,7 @@
     c.ui = {...uiDefaults,...c.ui};
     c.ageImageUrl=c.ageImageUrl||'';c.ageBackground=c.ageBackground||'#ffffff';c.ageText=c.ageText||'#1c1d18';c.ageButton=c.ageButton||'#ef8c35';c.ageButtonText=c.ageButtonText||'#1c1d18';
     c.sections = {...sectionDefaults,...c.sections};
+    c.categoryScroll={enabled:true,visible:3,seconds:3,...c.categoryScroll};
     c.faqs = c.faqs || faqDefaults;
     return c;
   }
@@ -76,6 +77,7 @@
     for(const k of ['instagramUrl','facebookUrl','tiktokUrl','whatsappUrl'])if(c[k]&&!/^https:\/\//i.test(c[k]))fail('Use HTTPS for social links.');
     for(const [key,value] of Object.entries(c.ui))string(value,'website text '+key);
     for(const value of Object.values(c.sections))if(typeof value!=='boolean')fail('Invalid section visibility');
+    if(typeof c.categoryScroll.enabled!=='boolean'||![2,3].includes(c.categoryScroll.visible)||!Number.isInteger(c.categoryScroll.seconds)||c.categoryScroll.seconds<1||c.categoryScroll.seconds>60)fail('Invalid category scrolling settings');
     ids(c.faqs,'FAQ',100);for(const f of c.faqs){string(f.question,'FAQ question',500);string(f.answer,'FAQ answer');if(!f.question.trim()||typeof f.published!=='boolean'||!Number.isFinite(f.order))fail('Invalid FAQ');}
     return c;
   }
