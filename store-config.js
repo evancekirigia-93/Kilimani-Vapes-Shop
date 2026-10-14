@@ -169,7 +169,7 @@ window.KILIMANI_CONFIG = {
   ],
   "announcement": "NAIROBI, WITH GOOD TASTE",
   "categoryHeading": "What are you looking for?",
-  "catalogueHeading": "Discover the collection",
+  "catalogueHeading": "Shop by category",
   "occasionEyebrow": "MAKE A MOMENT OF IT",
   "occasionLine1": "A quiet night.",
   "occasionLine2": "A big celebration.",
@@ -337,7 +337,7 @@ window.KILIMANI_CONFIG = {
     "artNote": "A pour for every occasion.",
     "categoryDescription": "Choose a category. Find your next favourite.",
     "browseCategories": "Browse the whole collection →",
-    "catalogueDescription": "A few favourites from the sample collection.",
+    "catalogueDescription": "",
     "browseTitle": "Find your kind of good.",
     "browseDescription": "Explore the collection by category, name or price.",
     "browseButton": "Shop everything →",
@@ -422,6 +422,7 @@ window.KILIMANI_CONFIG = {
   "categoryScroll": {
     "enabled": true,
     "visible": 3,
+    "mobileRows": 2,
     "speed": 10
   },
   "bannerCarousel": {
