@@ -125,7 +125,7 @@
     updateCategoryLoop();autoControl.textContent=categoryAuto?'Pause scrolling':'Play categories';autoControl.setAttribute('aria-label',categoryAuto?'Pause category scrolling':'Start category scrolling');autoControl.setAttribute('aria-pressed',String(categoryAuto));autoControl.hidden=isPhone||categoryRail.scrollWidth<=categoryRail.clientWidth;startCategoryAnimation();
   }
   function updateCategoryLoop(){
-    if(matchMedia('(max-width: 767px)').matches){categoryRail.querySelectorAll('[data-loop-copy]').forEach(node=>node.remove());categoryLoopDistance=0;return;}
+    // Keep cloned category cards on phones as well as desktop so the rail loops continuously.
     const originals=[...categoryRail.querySelectorAll('.category:not([data-loop-copy])')];
     if(!categoryRail.querySelector('[data-loop-copy]')&&originals.length&&(originals.at(-1).getBoundingClientRect().right-originals[0].getBoundingClientRect().left)>categoryRail.clientWidth){
       for(const original of originals){const copy=original.cloneNode(true);copy.dataset.loopCopy='true';copy.setAttribute('aria-hidden','true');copy.tabIndex=-1;for(const node of copy.querySelectorAll('[id]')){const id=node.id;node.id=id+'-loop';copy.querySelectorAll('[fill]').forEach(child=>{if(child.getAttribute('fill')==='url(#'+id+')')child.setAttribute('fill','url(#'+id+'-loop)');});}categoryRail.append(copy);}
