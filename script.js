@@ -73,7 +73,34 @@
   let cart=[];try{const stored=JSON.parse(localStorage.getItem('kilimani-cart')||'[]');if(Array.isArray(stored))cart=stored.filter(x=>products.some(p=>p.id===x.id)&&Number.isInteger(x.qty)&&x.qty>0).map(x=>({...x,qty:Math.min(x.qty,maxQuantity(products.find(p=>p.id===x.id)))})).filter(x=>x.qty>0);}catch{}
   function saveCart(){try{localStorage.setItem('kilimani-cart',JSON.stringify(cart));}catch{}renderCart();}
   let timer;function toast(s){$('toast').textContent=s;$('toast').classList.add('visible');clearTimeout(timer);timer=setTimeout(()=>$('toast').classList.remove('visible'),2400);}
-  function add(id){const p=products.find(p=>p.id===id);if(!p)return;const item=cart.find(x=>x.id===id);if((item?.qty||0)>=maxQuantity(p))return toast('Available quantity limit reached');if(item)item.qty++;else cart.push({id,qty:1});saveCart();toast('Added to your preview bag');}
+  function add(id){const p=products.find(p=>p.id===id);if(!p)return;const item=cart.find(x=>x.id===id);if((item?.qty||0)>=maxQuantity(p))return toast('Available quantity limit reached');if(item)item.qty++;else cart.push({id,qty:1});saveCart();showAddedPopup(p);}
+  let addedPopupTimer;
+  function showAddedPopup(p){
+    let popup=document.getElementById('addedCartPopup');
+    if(!popup){popup=document.createElement('aside');popup.id='addedCartPopup';popup.setAttribute('role','status');popup.setAttribute('aria-live','polite');document.body.appendChild(popup);}
+    const image=Model.imageUrl(p.imageUrl);
+    const quantity=cart.find(item=>item.id===p.id)?.qty||1;
+    popup.innerHTML='<button type="button" class="added-popup-close" aria-label="Close notification">×</button><div class="added-popup-title">✓ &nbsp; Added to cart</div><div class="added-popup-product">'+(image?'<img src="'+esc(image)+'" alt="">':'<span class="added-popup-placeholder">🛍️</span>')+'<div><strong>'+esc(p.name)+'</strong><small>'+quantity+' in cart · '+money(p.price)+'</small></div></div><div class="added-popup-actions"><button type="button" data-added-continue>Keep shopping</button><button type="button" data-added-checkout>View cart</button></div>';
+    popup.classList.add('is-visible');
+    clearTimeout(addedPopupTimer);
+    addedPopupTimer=setTimeout(()=>popup.classList.remove('is-visible'),6500);
+  }
+  function flyProductToCart(button){
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    const source=button.closest('.product-visual,.detail-layout')?.querySelector('img,svg')||button;
+    const destination=$('cartToggle');
+    if(!source||!destination)return;
+    const start=source.getBoundingClientRect(),end=destination.getBoundingClientRect();
+    if(!start.width||!end.width)return;
+    const flyer=source.cloneNode(true);
+    flyer.removeAttribute('id');
+    flyer.style.cssText='position:fixed;z-index:9998;pointer-events:none;left:'+start.left+'px;top:'+start.top+'px;width:'+Math.min(start.width,90)+'px;height:'+Math.min(start.height,100)+'px;object-fit:contain;transform-origin:center;filter:drop-shadow(0 6px 12px #0003)';
+    document.body.appendChild(flyer);
+    const dx=end.left+end.width/2-start.left-Math.min(start.width,90)/2;
+    const dy=end.top+end.height/2-start.top-Math.min(start.height,100)/2;
+    const anim=flyer.animate([{transform:'translate(0,0) scale(1)',opacity:1},{offset:.5,transform:'translate('+dx*.48+'px,'+(dy*.48-65)+'px) scale(.75)',opacity:1},{transform:'translate('+dx+'px,'+dy+'px) scale(.12)',opacity:.1}],{duration:650,easing:'cubic-bezier(.2,.8,.2,1)'});
+    anim.onfinish=()=>flyer.remove();anim.oncancel=()=>flyer.remove();
+  }
   function productCard(p){return `<article class="product"><div class="product-visual"><button class="product-image" data-detail="${p.id}" aria-label="View ${esc(p.name)}">${artwork(p)}</button><button class="add-button" data-add="${p.id}" aria-label="Add ${esc(p.name)} to bag" ${p.stock===0?'disabled':''}>${esc(ui.addButton)}</button></div><div class="product-bottom"><span>${money(p.price)}</span>${p.basePrice>p.price?` <del>${money(p.basePrice)}</del>`:''}</div><h3><button class="product-name" data-detail="${p.id}">${esc(p.name)}</button></h3><p class="product-meta">${esc(p.category)} · ${esc(p.size)}</p><p class="product-status">${p.stock===null?'Sample · availability unverified':p.stock===0?'Out of stock':p.stock+' in stock'}</p></article>`;}
   function render(){const q=$('search').value.trim().toLowerCase(),cat=$('categoryFilter').value;text('.catalogue h2',cat==='All'?cfg.catalogueHeading:cat);let list=products.filter(p=>(cat==='All'||p.category===cat)&&`${p.name} ${p.category} ${p.description}`.toLowerCase().includes(q));if($('sort').value==='low')list.sort((a,b)=>a.price-b.price);if($('sort').value==='high')list.sort((a,b)=>b.price-a.price);if($('sort').value==='name')list.sort((a,b)=>a.name.localeCompare(b.name));$('resultCount').textContent=`${list.length} sample products`;$('productGrid').innerHTML=list.length?list.map(productCard).join(''):'<div class="empty">No bottles match your search. Try another name or reset the filters.</div>';document.querySelectorAll('[data-category]').forEach(a=>a.setAttribute('aria-current',String(a.dataset.category===cat)));}
   $('homepageRows').innerHTML=cfg.rows.filter(r=>r.published).sort((a,b)=>a.order-b.order).map(r=>{let list=r.productIds.length?r.productIds.map(id=>products.find(p=>p.id===id)).filter(Boolean):products.filter(p=>!r.category||p.category===r.category);list=list.slice(0,r.limit);const id='rowShelf'+r.id;return `<section class="section shelf-section" data-row="${r.id}"><div class="section-heading"><div><h2>${esc(r.title)}</h2><p class="shelf-description">${esc(r.description)}</p></div><a href="#catalogue" data-category="${esc(r.category||'All')}">View all →</a></div><div class="shelf-controls"><button data-scroll="${id}" data-direction="-1" aria-label="Scroll ${esc(r.title)} left">‹</button><button data-scroll="${id}" data-direction="1" aria-label="Scroll ${esc(r.title)} right">›</button></div><div id="${id}" class="product-grid">${list.length?list.map(productCard).join(''):'<p class="empty">No published products in this collection.</p>'}</div></section>`;}).join('');
@@ -141,7 +168,7 @@
     const dot=target.closest('[data-banner]');if(dot)showBanner(Number(dot.dataset.banner));
     const scroll=target.closest('[data-scroll]');if(scroll){const shelf=$(scroll.dataset.scroll);shelf.scrollBy({left:Number(scroll.dataset.direction)*shelf.clientWidth*.85,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}
     const category=target.closest('[data-category]');if(category){$('categoryFilter').value=category.dataset.category;render();}
-    const addButton=target.closest('[data-add]');if(addButton)add(Number(addButton.dataset.add));
+    const addButton=target.closest('[data-add]');if(addButton){flyProductToCart(addButton);add(Number(addButton.dataset.add));}\n    if(target.closest('.added-popup-close,[data-added-continue]'))document.getElementById('addedCartPopup')?.classList.remove('is-visible');\n    if(target.closest('[data-added-checkout]')){document.getElementById('addedCartPopup')?.classList.remove('is-visible');$('cartDrawer').showModal();}
     const detail=target.closest('[data-detail]');if(detail){const p=products.find(x=>x.id===Number(detail.dataset.detail));if(!p)return;$('productDialog').innerHTML=`<button class="close-dialog icon-button" aria-label="Close product">×</button><div class="detail-layout"><div class="detail-art">${artwork(p)}</div><div><p class="eyebrow">${esc(p.category)} · ${esc(p.size)}</p><h2>${esc(p.name)}</h2><p>${esc(p.description)}</p><p>${money(p.price)}</p><p class="cart-note">Catalogue preview. Products and prices require verification. Placeholder illustrations are not official product photos.</p><button class="primary" data-add="${p.id}" ${p.stock===0?'disabled':''}>${esc(ui.addButton)}</button></div></div>`;$('productDialog').showModal();}
     const close=target.closest('.close-dialog');if(close)close.closest('dialog').close();
   });
