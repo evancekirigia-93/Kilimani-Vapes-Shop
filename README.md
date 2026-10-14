@@ -25,17 +25,17 @@ Open `/admin.html`. The navy sidebar, overview cards, peach forms and orange act
 - **Categories:** name, original image, visibility, delete and ordering. Renaming updates product and row references. Categories containing products must be emptied before deletion.
 - **Discounts:** percentage or fixed reductions for selected products. The best applicable price wins; discounts do not stack. Prices agree across cards, details, bag and checkout preview.
 - **Homepage rows:** category-based or manually selected product shelves, title, supporting text, count, order and publication. Party collections are shelves, not a single-priced bundled product.
-- **Website content:** branding and contact information, colours, section visibility, partnership copy, footer, policies, article, FAQs and storefront labels. Banners have original images, text, destination, button, order and publication. Use the jump links to reach Popup and Banners.
+- **Website content:** branding and contact information, colours, section visibility, partnership copy, footer, policies, article, FAQs and storefront labels. Banners have original images, text, destination, button, order and publication. The banner carousel cross-fades automatically every seven seconds by default, with editable autoplay/timing, next/previous/dot controls and a pause button. It pauses during interaction, off-screen, behind dialogs and in background tabs, and respects reduced-motion preferences. Use the jump links to reach Popup and Banners.
 - **Popup:** heading, description, acknowledgement/leave button text, notice, optional image, panel/text/button colours. Age acknowledgement remains a browser session check, not legal identity verification.
 - **Delivery & payments:** checkout copy, optional dispatch coordinates, planned payment choices, optional gift notes and non-overlapping distance/fee bands. These settings do not connect a payment provider or enable real orders/GPS calculations.
 - **Orders / Dispatch:** private server order lists and fulfilment-status changes. They stay empty until a separate order intake is connected. No fake orders or counts are seeded.
 - **Backup & export:** configuration JavaScript/JSON exports, import, advanced JSON editing and repository-default restoration.
 
-The homepage has a larger banner and a vertically scrollable list of circular categories beside the banner on desktop and below it on smaller screens. Two or three category circles can be shown at once, selected in Website content → Category scrolling. Autoplay and its interval are editable there too. By default three circles are visible. The list advances every three seconds, pauses on hover/focus/touch, provides a pause/play control, and respects reduced-motion preferences. Original uploaded images use `object-fit: contain` and retain their aspect ratio, colours and bytes. No image is cropped or redrawn.
+The storefront fills the available screen width with responsive gutters on phones, tablets and large desktops. The homepage has a larger banner and a vertically scrollable list of circular categories beside the banner on desktop and below it on smaller screens. Two or three category circles can be shown at once, selected in Website content → Category scrolling. Autoplay and its speed are editable there too. By default three circles are visible. The list moves continuously at a slow default of 10 pixels per second and gently reverses at either end, without snapping or jumping. It pauses on hover/focus/touch, when out of view, behind a dialog or in a background tab, provides a pause/play control, and respects reduced-motion preferences. Original uploaded images use `object-fit: contain` and retain their aspect ratio, colours and bytes. No image is cropped or redrawn.
 
-### Original logo
+### Logo
 
-The supplied logo is visible in chat, but no original attachment file was available in the checkout. A clearly marked placeholder remains until the original file is supplied. Select the actual PNG/JPG/WebP under **Website content → Company logo**, then save. It is used unchanged in the header, footer, about section and age popup (unless a separate popup image is chosen). No substitute artwork is represented as the official logo.
+The active PNG is `assets/kilimani-logo.png`, edited from the supplied reference at the user's request: metallic gold hand, brighter electric purple border/hookah, orange lettering and black background. It is fitted without cropping in the header, footer, story section, admin and popup. Replace it through **Website content → Company logo** if needed; uploads preserve the selected file bytes. The full generated PNG is retained outside the checkout as well.
 
 ### Static mode versus shared server
 
@@ -77,5 +77,7 @@ CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium \
 KILIMANI_TEST_URL=http://127.0.0.1:3001 \
 node tests/category-scroll.browser.cjs
 ```
+
+Use the same environment variables with `node tests/banner-carousel.browser.cjs` to check automatic banners, hover pause, manual controls, reduced motion and portrait/landscape/full-width layouts up to 2560px.
 
 The suites use isolated temporary storage and generated test credentials; they do not modify the running store. They verify migration, best-price rules, schema validation, authentication/origin checks, stale-write rejection, byte-preserving uploads, order privacy/statuses, dashboard CRUD, cross-browser changes, editable popup, banner/row rendering, bag/checkout preview, visibility, deletion cleanup and responsive layouts from 320–1440px. Storefront artwork is original or supplied by the user; reference branding and photos are not copied.

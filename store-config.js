@@ -11,7 +11,7 @@ window.KILIMANI_CONFIG = {
   "contactDetails": "Shop address, opening hours and contact details will be added once verified.",
   "orange": "#ef8c35",
   "gold": "#d9bd83",
-  "logoUrl": "",
+  "logoUrl": "/assets/kilimani-logo.png",
   "categories": [
     "Whisky",
     "Wine",
@@ -422,6 +422,10 @@ window.KILIMANI_CONFIG = {
   "categoryScroll": {
     "enabled": true,
     "visible": 3,
-    "seconds": 3
+    "speed": 10
+  },
+  "bannerCarousel": {
+    "enabled": true,
+    "seconds": 7
   }
 };
