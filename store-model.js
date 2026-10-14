@@ -8,7 +8,7 @@
 
   const uiDefaults = {
     pageTitle:'Kilimani Vapes Shop · A taste for the good life',metaDescription:'Discover wines, spirits and more at Kilimani Vapes Shop, Nairobi.',
-    topNote:'For adults 18+ · Enjoy responsibly',searchPlaceholder:'Find your favourite bottle…',locationLabel:'Nairobi · Shop info',basketLabel:'Basket',shopAll:'Shop all',shopLink:'Our shop ↗',
+    topNote:'For adults 18+ · Enjoy responsibly',searchPlaceholder:'Find your favourite…',locationLabel:'Nairobi · Shop info',basketLabel:'Basket',shopAll:'Shop all',shopLink:'Our shop ↗',
     benefit1:'Nairobi based',benefit2:'Curated collection',benefit3:'Enjoy responsibly',benefit4:'Prices in KSh',shopInformation:'Shop information →',
     heroFoot:'WINES · SPIRITS · BEER',artCaption:'THE KILIMANI EDIT',artNote:'A pour for every occasion.',categoryDescription:'Choose a category. Find your next favourite.',browseCategories:'Browse the whole collection →',
     catalogueDescription:'A few favourites from the sample collection.',browseTitle:'Find your kind of good.',browseDescription:'Explore the collection by category, name or price.',browseButton:'Shop everything →',
@@ -36,6 +36,7 @@
     ];
     c.delivery = {...deliveryDefaults,...c.delivery};
     c.ui = {...uiDefaults,...c.ui};
+    if(c.ui.searchPlaceholder==='Find your favourite bottle…')c.ui.searchPlaceholder='Find your favourite…';
     c.ageImageUrl=c.ageImageUrl||'';c.ageBackground=c.ageBackground||'#ffffff';c.ageText=c.ageText||'#1c1d18';c.ageButton=c.ageButton||'#ef8c35';c.ageButtonText=c.ageButtonText||'#1c1d18';
     c.sections = {...sectionDefaults,...c.sections};
     c.categoryScroll={enabled:true,visible:3,mobileVisible:3,speed:10,...c.categoryScroll};

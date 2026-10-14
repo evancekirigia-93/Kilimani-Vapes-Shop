@@ -322,7 +322,7 @@ window.KILIMANI_CONFIG = {
     "pageTitle": "Kilimani Vapes Shop · A taste for the good life",
     "metaDescription": "Discover wines, spirits and more at Kilimani Vapes Shop, Nairobi.",
     "topNote": "For adults 18+ · Enjoy responsibly",
-    "searchPlaceholder": "Find your favourite bottle…",
+    "searchPlaceholder": "Find your favourite…",
     "locationLabel": "Nairobi · Shop info",
     "basketLabel": "Basket",
     "shopAll": "Shop all",
