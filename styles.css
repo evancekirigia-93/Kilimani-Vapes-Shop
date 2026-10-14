@@ -48,3 +48,6 @@ html{scroll-padding-top:125px}.topline{padding:7px 20px;font-size:9px;letter-spa
 /* Keep desktop information available in the compact mobile layout. */
 @media(max-width:1050px){.header-location{display:block}}
 @media(max-width:700px){.header-location{grid-column:1/-1;justify-self:start;max-width:100%;white-space:normal}.benefits a{display:block;flex-shrink:0}}
+
+/* Override the legacy rule that hid every span inside a category. */
+@media(min-width:701px){.category-panel .category .category-art{display:contents}}
