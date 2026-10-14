@@ -13,7 +13,7 @@
     const headers = {'Content-Type':'application/json'};
     if (method==='PUT' && revision) headers['If-Match']=revision;
     const response = await fetch(path,{method,headers,body:data===undefined?undefined:JSON.stringify(data)});
-    const result = await response.json();
+    const result = await response.json().catch(()=>{throw Error(response.status===413?'Your hosting service rejected this upload as too large. The website itself has no file-size cap.':'Server returned an invalid response (HTTP '+response.status+'). Your image has not been saved.');});
     if (!response.ok) throw Error(result.error || 'Request failed.');
     if(path==='/api/config' && response.headers.get('ETag')) revision=response.headers.get('ETag');
     return result;
@@ -40,7 +40,7 @@
   const options = (items,value) => items.map(item=>`<option value="${esc(item)}" ${item===value?'selected':''}>${esc(item)}</option>`).join('');
   const categorySelect=(value='',empty=true)=>`<label class="field">Category${empty?' (optional)':''}<select name="category">${empty?'<option value="">Choose a category</option>':''}${options(config.categories,value)}</select></label>`;
   const productPicker=(selected=[])=>`<label class="field full">Choose products manually<select name="productIds" multiple>${config.products.map(p=>`<option value="${p.id}" ${selected.includes(p.id)?'selected':''}>${esc(p.name)} · ${esc(p.size)}</option>`).join('')}</select><small>Hold Ctrl/Cmd to select several products, or use your device's selection controls.</small></label>`;
-  function imageField(name,label,value='',logo=false) { const safe=Model.imageUrl(value);return `<div class="field full">${label}${safe?`<div class="image-preview ${logo?'logo':''}"><img src="${esc(safe)}" alt="Current ${esc(label)}"><small>Shown in full. Original aspect ratio and colours are preserved.</small></div>`:''}<input type="file" data-upload="${name}" accept="image/png,image/jpeg,image/webp" aria-label="Upload ${esc(label)}"><input name="${name}" type="text" value="${esc(value)}" aria-label="${esc(label)} URL" placeholder="Or paste an image URL / local asset path"><small>PNG, JPG or WebP, up to 2 MB. Uploads preserve the original file bytes. Use images you own.</small></div>`; }
+  function imageField(name,label,value='',logo=false) { const safe=Model.imageUrl(value);return `<div class="field full">${label}${safe?`<div class="image-preview ${logo?'logo':''}"><img src="${esc(safe)}" alt="Current ${esc(label)}"><small>Shown in full. Original aspect ratio and colours are preserved.</small></div>`:''}<input type="file" data-upload="${name}" accept="image/png,image/jpeg,image/webp" aria-label="Upload ${esc(label)}"><input name="${name}" type="text" value="${esc(value)}" aria-label="${esc(label)} URL" placeholder="Or paste an image URL / local asset path"><small>PNG, JPG or WebP. No application file-size cap. Uploads preserve the original file bytes. Use images you own.</small></div>`; }
   function heading(title,description,action='') {return `<div class="panel-header"><div><h1>${title}</h1><p class="panel-description">${description}</p></div>${action}</div>`;}
   function actions(label) {return `<div class="form-actions"><button class="button" type="submit">${label}</button>${editing!==null?'<button type="button" class="button ghost" data-cancel>Cancel edit</button>':''}</div>`;}
   function visibility(value){return `<span class="tag ${value?'':'draft'}">${value?'Visible':'Hidden'}</span>`;}
@@ -82,7 +82,7 @@
       let preview=holder.querySelector('.image-preview');
       holder.dataset.uploading='true';
       try{
-        if(!['image/png','image/jpeg','image/webp'].includes(file.type)||file.size>2*1024*1024)throw Error('Choose a PNG, JPG or WebP image up to 2 MB.');
+        if(!['image/png','image/jpeg','image/webp'].includes(file.type))throw Error('Choose a PNG, JPG or WebP image.');
         const data=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(Error('Unable to read image'));reader.readAsDataURL(file);});
         const image=new Image();image.src=data;await image.decode();
         if(!preview){preview=document.createElement('div');preview.className='image-preview'+(input.dataset.upload==='logoUrl'?' logo':'');holder.insertBefore(preview,input);}
@@ -96,7 +96,7 @@
       }catch(e){if(preview){const note=preview.querySelector('small');if(note)note.textContent='Upload failed. This selection has not been applied. '+e.message;}message(e.message,true);}
       finally{delete holder.dataset.uploading;input.value='';}
     }
-    if(input.id==='importConfig'){try{const file=input.files[0];if(!file||file.size>8*1024*1024)throw Error('Choose a JSON backup under 8 MB.');const next=Model.normalize(JSON.parse(await file.text()));if(confirm('Replace the current configuration with this backup?'))await save(next,'Backup imported.');}catch(e){message(e.message,true);}}
+    if(input.id==='importConfig'){try{const file=input.files[0];if(!file)throw Error('Choose a JSON backup.');const next=Model.normalize(JSON.parse(await file.text()));if(confirm('Replace the current configuration with this backup?'))await save(next,'Backup imported.');}catch(e){message(e.message,true);}}
   });
   $('panel').addEventListener('click',async event=>{
     const button=event.target.closest('button');if(!button)return;

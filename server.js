@@ -36,7 +36,7 @@ function session(req) {
   if(token)sessions.delete(token);
   return null;
 }
-async function body(req,limit=8*1024*1024) {let result='';for await(const chunk of req){result+=chunk;if(Buffer.byteLength(result)>limit)throw Error('Request too large');}return JSON.parse(result);}
+async function body(req,limit=Infinity) {let result='';for await(const chunk of req){result+=chunk;if(Buffer.byteLength(result)>limit)throw Error('Request too large');}return JSON.parse(result);}
 function sameOrigin(req) {try {return !!req.headers.origin && new URL(req.headers.origin).host===req.headers.host;}catch{return false;}}
 function serveImage(res,file) {res.writeHead(200,{'Content-Type':mime[path.extname(file)],'Cache-Control':'public, max-age=31536000, immutable','Content-Security-Policy':"default-src 'none'"});fs.createReadStream(file).on('error',()=>res.destroy()).pipe(res);}
 const server = http.createServer(async(req,res)=>{
@@ -78,13 +78,13 @@ const server = http.createServer(async(req,res)=>{
     }
     if(url.pathname==='/api/uploads'&&req.method==='POST'){
       if(!session(req))return send(res,401,{error:'Sign in before uploading images'});
-      const b=await body(req,3*1024*1024);
+      const b=await body(req);
       const match=typeof b.data==='string'&&b.data.match(/^data:image\/(png|jpeg|webp);base64,([A-Za-z0-9+/]+=*)$/);
       if(!match)return send(res,400,{error:'Only PNG, JPG and WebP images are allowed'});
       const bytes=Buffer.from(match[2],'base64');
       const type=match[1];
       const valid=type==='png'?bytes.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])):type==='jpeg'?bytes.subarray(0,3).equals(Buffer.from([255,216,255])):bytes.toString('ascii',0,4)==='RIFF'&&bytes.toString('ascii',8,12)==='WEBP';
-      if(!valid||bytes.length>2*1024*1024)return send(res,400,{error:'Invalid image or file larger than 2 MB'});
+      if(!valid)return send(res,400,{error:'Invalid image file'});
       const name=crypto.createHash('sha256').update(bytes).digest('hex')+'.'+(type==='jpeg'?'jpg':type);
       const file=path.join(uploadsDir,name);if(!fs.existsSync(file))fs.writeFileSync(file,bytes,{mode:0o600});
       return send(res,201,{url:'/uploads/'+name});

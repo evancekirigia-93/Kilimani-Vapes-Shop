@@ -62,7 +62,7 @@
     const fail=message=>{throw Error(message);};
     const string=(s,name,max=20000)=>{if(typeof s!=='string'||s.length>max)fail('Invalid '+name);};
     const ids=(list,name,max)=>{if(!Array.isArray(list)||list.length>max)fail('Invalid '+name);const set=new Set();for(const item of list){if(!Number.isInteger(item.id)||item.id<1||set.has(item.id))fail('Duplicate or invalid '+name+' ID');set.add(item.id);}return set;};
-    const image=(s,name)=>{string(s,name,4000000);if(s&&!imageUrl(s))fail('Invalid '+name+' URL');};
+    const image=(s,name)=>{string(s,name,Infinity);if(s&&!imageUrl(s))fail('Invalid '+name+' URL');};
     if(!c||!Array.isArray(c.categories)||!c.categories.length||c.categories.length>100)fail('At least one category is required.');
     const names=new Set();for(const name of c.categories){string(name,'category',100);if(!name.trim()||names.has(name))fail('Category names must be unique.');names.add(name);}
     for(const key of ['brand','brandSubtitle','heroEyebrow','heroTitle','heroAccent','heroDescription','bannerTitle','bannerDescription','contactDescription','contactDetails',...Object.keys(textDefaults)])string(c[key],key);
