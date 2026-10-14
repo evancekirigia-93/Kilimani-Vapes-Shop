@@ -100,6 +100,6 @@
   $('cartToggle').onclick=()=>$('cartDrawer').showModal();$('cartClose').onclick=()=>$('cartDrawer').close();
   $('checkoutForm').onsubmit=event=>{event.preventDefault();$('checkoutForm').hidden=true;$('orderReview').hidden=false;$('orderReview').innerHTML=`<h3>Your demo order review</h3>${cart.map(x=>`<p>${esc(products.find(p=>p.id===x.id).name)} × ${x.qty}</p>`).join('')}<div class="total"><span>${esc(ui.subtotal)}</span><b>${money(total())}</b></div><p>No order was sent and no payment was taken. Live inventory, delivery and payment services must be connected before orders can be placed.</p><button class="primary close-dialog">Continue browsing</button>`;$('checkoutForm').reset();};
   let confirmed=false;try{confirmed=sessionStorage.getItem('kilimani-adult-confirmed')==='yes';}catch{}
-  if(!confirmed)$('ageGate').showModal();$('ageGate').addEventListener('cancel',event=>event.preventDefault());$('confirmAge').onclick=()=>{try{sessionStorage.setItem('kilimani-adult-confirmed','yes');}catch{}$('ageGate').close();};$('leaveSite').onclick=()=>{document.querySelector('.age-content').innerHTML='<h2>Thank you for visiting.</h2><p>This website is for adults 18 and older.</p>';};
+  if(!confirmed)$('ageGate').showModal();$('ageGate').addEventListener('cancel',event=>event.preventDefault());$('confirmAge').onclick=()=>{try{sessionStorage.setItem('kilimani-adult-confirmed','yes');}catch{}$('ageGate').close();};$('leaveSite').onclick=()=>{location.replace('about:blank');};
   render();renderCart();
 })();
