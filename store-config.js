@@ -23,6 +23,8 @@ window.KILIMANI_CONFIG = {
   ],
   "products": [
     {
+      "published": true,
+      "stock": null,
       "id": 1,
       "name": "Jameson Original",
       "category": "Whisky",
@@ -33,6 +35,8 @@ window.KILIMANI_CONFIG = {
       "imageUrl": ""
     },
     {
+      "published": true,
+      "stock": null,
       "id": 2,
       "name": "Johnnie Walker Black Label",
       "category": "Whisky",
@@ -43,6 +47,8 @@ window.KILIMANI_CONFIG = {
       "imageUrl": ""
     },
     {
+      "published": true,
+      "stock": null,
       "id": 3,
       "name": "Tanqueray London Dry",
       "category": "Gin",
@@ -53,6 +59,8 @@ window.KILIMANI_CONFIG = {
       "imageUrl": ""
     },
     {
+      "published": true,
+      "stock": null,
       "id": 4,
       "name": "Absolut Original",
       "category": "Vodka",
@@ -63,6 +71,8 @@ window.KILIMANI_CONFIG = {
       "imageUrl": ""
     },
     {
+      "published": true,
+      "stock": null,
       "id": 5,
       "name": "Jacob’s Creek Shiraz",
       "category": "Wine",
@@ -73,6 +83,8 @@ window.KILIMANI_CONFIG = {
       "imageUrl": ""
     },
     {
+      "published": true,
+      "stock": null,
       "id": 6,
       "name": "Hennessy V.S",
       "category": "Cognac",
@@ -83,6 +95,8 @@ window.KILIMANI_CONFIG = {
       "imageUrl": ""
     },
     {
+      "published": true,
+      "stock": null,
       "id": 7,
       "name": "Moët & Chandon Brut",
       "category": "Champagne",
@@ -93,6 +107,8 @@ window.KILIMANI_CONFIG = {
       "imageUrl": ""
     },
     {
+      "published": true,
+      "stock": null,
       "id": 8,
       "name": "Tusker Lager",
       "category": "Beer",
@@ -103,6 +119,8 @@ window.KILIMANI_CONFIG = {
       "imageUrl": ""
     },
     {
+      "published": true,
+      "stock": null,
       "id": 9,
       "name": "Four Cousins Sweet Red",
       "category": "Wine",
@@ -113,6 +131,8 @@ window.KILIMANI_CONFIG = {
       "imageUrl": ""
     },
     {
+      "published": true,
+      "stock": null,
       "id": 10,
       "name": "Nederburg Sauvignon Blanc",
       "category": "Wine",
@@ -123,6 +143,8 @@ window.KILIMANI_CONFIG = {
       "imageUrl": ""
     },
     {
+      "published": true,
+      "stock": null,
       "id": 11,
       "name": "Frontera Merlot",
       "category": "Wine",
@@ -133,6 +155,8 @@ window.KILIMANI_CONFIG = {
       "imageUrl": ""
     },
     {
+      "published": true,
+      "stock": null,
       "id": 12,
       "name": "Robertson Sweet Rosé",
       "category": "Wine",
@@ -157,5 +181,242 @@ window.KILIMANI_CONFIG = {
   "cream": "#f7f5ef",
   "partnerTitle": "Want to become a partner?",
   "partnerDescription": "Bring your brand, your products or your ideas. Let's explore what we can build together.",
-  "partnerContact": "Partnership contact details coming soon."
+  "partnerContact": "Partnership contact details coming soon.",
+  "phone": "",
+  "email": "",
+  "instagramUrl": "",
+  "facebookUrl": "",
+  "tiktokUrl": "",
+  "whatsappUrl": "",
+  "footerShopHeading": "Explore",
+  "footerHelpHeading": "Information",
+  "footerContactHeading": "Enjoy responsibly",
+  "copyrightText": "",
+  "aboutText": "",
+  "privacyPolicy": "",
+  "terms": "",
+  "journalHeading": "The Kilimani journal",
+  "articleHeading": "",
+  "journalIntroduction": "",
+  "articleSummary": "",
+  "articleBody": "",
+  "categoryDetails": [
+    {
+      "name": "Whisky",
+      "imageUrl": "",
+      "visible": true
+    },
+    {
+      "name": "Wine",
+      "imageUrl": "",
+      "visible": true
+    },
+    {
+      "name": "Gin",
+      "imageUrl": "",
+      "visible": true
+    },
+    {
+      "name": "Vodka",
+      "imageUrl": "",
+      "visible": true
+    },
+    {
+      "name": "Cognac",
+      "imageUrl": "",
+      "visible": true
+    },
+    {
+      "name": "Champagne",
+      "imageUrl": "",
+      "visible": true
+    },
+    {
+      "name": "Beer",
+      "imageUrl": "",
+      "visible": true
+    }
+  ],
+  "discounts": [],
+  "banners": [
+    {
+      "id": 1,
+      "title": "A bottle for",
+      "accent": "every occasion.",
+      "eyebrow": "A LITTLE TASTE OF THE GOOD LIFE",
+      "description": "Explore wines, spirits and beer. Your favourites and a few fresh discoveries.",
+      "imageUrl": "",
+      "link": "#catalogue",
+      "buttonText": "Shop the collection →",
+      "order": 0,
+      "published": true
+    },
+    {
+      "id": 2,
+      "title": "Something for every occasion.",
+      "accent": "",
+      "eyebrow": "THE OCCASION EDIT",
+      "description": "Find a bottle worth sharing.",
+      "imageUrl": "",
+      "link": "#catalogue",
+      "buttonText": "Explore the collection →",
+      "order": 1,
+      "published": true
+    },
+    {
+      "id": 3,
+      "title": "A quiet night.",
+      "accent": "Your kind of occasion.",
+      "eyebrow": "MAKE A MOMENT OF IT",
+      "description": "A big celebration.",
+      "imageUrl": "",
+      "link": "#catalogue",
+      "buttonText": "Find your favourite →",
+      "order": 2,
+      "published": true
+    }
+  ],
+  "rows": [
+    {
+      "id": 1,
+      "title": "Discover wine",
+      "description": "From an easy evening to a special occasion.",
+      "category": "Wine",
+      "productIds": [],
+      "limit": 8,
+      "order": 0,
+      "published": true
+    },
+    {
+      "id": 2,
+      "title": "Explore spirits",
+      "description": "Whisky, gin, vodka and more.",
+      "category": "",
+      "productIds": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7
+      ],
+      "limit": 8,
+      "order": 1,
+      "published": true
+    }
+  ],
+  "delivery": {
+    "heading": "Checkout preview",
+    "addressLabel": "Delivery address",
+    "latitude": null,
+    "longitude": null,
+    "phone": "",
+    "mpesa": false,
+    "cash": false,
+    "card": false,
+    "coupons": false,
+    "giftNotes": false,
+    "bands": []
+  },
+  "ui": {
+    "pageTitle": "Kilimani Vapes Shop · A taste for the good life",
+    "metaDescription": "Discover wines, spirits and more at Kilimani Vapes Shop, Nairobi.",
+    "topNote": "For adults 18+ · Enjoy responsibly",
+    "searchPlaceholder": "Find your favourite bottle…",
+    "locationLabel": "Nairobi · Shop info",
+    "basketLabel": "Basket",
+    "shopAll": "Shop all",
+    "shopLink": "Our shop ↗",
+    "benefit1": "Nairobi based",
+    "benefit2": "Curated collection",
+    "benefit3": "Enjoy responsibly",
+    "benefit4": "Prices in KSh",
+    "shopInformation": "Shop information →",
+    "heroFoot": "WINES · SPIRITS · BEER",
+    "artCaption": "THE KILIMANI EDIT",
+    "artNote": "A pour for every occasion.",
+    "categoryDescription": "Choose a category. Find your next favourite.",
+    "browseCategories": "Browse the whole collection →",
+    "catalogueDescription": "A few favourites from the sample collection.",
+    "browseTitle": "Find your kind of good.",
+    "browseDescription": "Explore the collection by category, name or price.",
+    "browseButton": "Shop everything →",
+    "storyEyebrow": "THE KILIMANI WAY",
+    "storyButton": "Find your next favourite →",
+    "stampTop": "NAIROBI",
+    "stampBottom": "GOOD TASTE · GREAT COMPANY",
+    "detailsEyebrow": "COME FOR THE COLLECTION",
+    "detailsHeading": "Your neighbourhood. Your kind of good.",
+    "faqEyebrow": "BEFORE YOU BROWSE",
+    "faqHeading": "A few things to know.",
+    "partnerEyebrow": "LET'S GROW TOGETHER",
+    "partnerButton": "Explore partnership",
+    "footerCollection": "The collection ↗",
+    "footerShop": "Our shop ↗",
+    "footerAdmin": "Store editor ↗",
+    "responsibility": "Good times. Responsible choices.",
+    "responsibilityText": "For adults only. Alcohol is not for sale to persons under 18.",
+    "backToTop": "BACK TO TOP ↑",
+    "ageEyebrow": "KILIMANI VAPES SHOP · 18+",
+    "ageTitle": "Here's to good company.",
+    "ageDescription": "This website features alcohol. Please confirm you are 18 or older.",
+    "ageConfirm": "I am 18 or older →",
+    "ageDecline": "I am under 18",
+    "ageNote": "Age confirmation is not identity verification. Please drink responsibly.",
+    "bagHeading": "Your bag",
+    "emptyBag": "Your bag is waiting for something good.",
+    "addButton": "+ Add",
+    "subtotal": "Sample subtotal",
+    "checkoutButton": "Preview checkout →",
+    "checkoutName": "Full name",
+    "checkoutEmail": "Email",
+    "checkoutPhone": "Phone",
+    "checkoutReview": "Review demo order →"
+  },
+  "ageImageUrl": "",
+  "ageBackground": "#ffffff",
+  "ageText": "#1c1d18",
+  "ageButton": "#ef8c35",
+  "sections": {
+    "benefits": true,
+    "hero": true,
+    "categories": true,
+    "catalogue": true,
+    "rows": true,
+    "browse": true,
+    "story": true,
+    "partnership": true,
+    "journal": true
+  },
+  "faqs": [
+    {
+      "id": 1,
+      "question": "Can I place an order now?",
+      "answer": "This is a catalogue and checkout preview. Orders will be enabled after inventory, delivery and payments are connected.",
+      "published": true,
+      "order": 0
+    },
+    {
+      "id": 2,
+      "question": "Are these prices final?",
+      "answer": "These are sample prices. Product availability and final prices require verification.",
+      "published": true,
+      "order": 1
+    },
+    {
+      "id": 3,
+      "question": "Where do you deliver?",
+      "answer": "Confirmed delivery areas and fees have not yet been configured.",
+      "published": true,
+      "order": 2
+    },
+    {
+      "id": 4,
+      "question": "How can I pay?",
+      "answer": "Payment methods will appear when a payment provider is connected. No payments are collected in this preview.",
+      "published": true,
+      "order": 3
+    }
+  ],
+  "ageButtonText": "#1c1d18"
 };
