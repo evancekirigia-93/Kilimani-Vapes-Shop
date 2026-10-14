@@ -167,14 +167,14 @@ window.KILIMANI_CONFIG = {
       "imageUrl": ""
     }
   ],
-  "announcement": "NAIROBI, WITH GOOD TASTE",
+  "announcement": "A taste for the good life",
   "categoryHeading": "What are you looking for?",
   "catalogueHeading": "Shop by category",
   "occasionEyebrow": "MAKE A MOMENT OF IT",
   "occasionLine1": "A quiet night.",
   "occasionLine2": "A big celebration.",
   "occasionAccent": "Your kind of occasion.",
-  "contactHeading": "Welcome to Kilimani.",
+  "contactHeading": "Welcome to Kilimani Vape Shop",
   "footerTagline": "Good taste. Great company.",
   "ink": "#1c1d18",
   "background": "#ffffff",
