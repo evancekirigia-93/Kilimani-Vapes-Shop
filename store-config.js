@@ -422,7 +422,7 @@ window.KILIMANI_CONFIG = {
   "categoryScroll": {
     "enabled": true,
     "visible": 3,
-    "mobileRows": 2,
+    "mobileVisible": 3,
     "speed": 10
   },
   "bannerCarousel": {
