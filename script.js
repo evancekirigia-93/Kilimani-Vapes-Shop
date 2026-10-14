@@ -172,7 +172,9 @@
     const dot=target.closest('[data-banner]');if(dot)showBanner(Number(dot.dataset.banner));
     const scroll=target.closest('[data-scroll]');if(scroll){const shelf=$(scroll.dataset.scroll);shelf.scrollBy({left:Number(scroll.dataset.direction)*shelf.clientWidth*.85,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}
     const category=target.closest('[data-category]');if(category){$('categoryFilter').value=category.dataset.category;render();}
-    const addButton=target.closest('[data-add]');if(addButton){flyProductToCart(addButton);add(Number(addButton.dataset.add));}\n    if(target.closest('.added-popup-close,[data-added-continue]'))document.getElementById('addedCartPopup')?.classList.remove('is-visible');\n    if(target.closest('[data-added-checkout]')){document.getElementById('addedCartPopup')?.classList.remove('is-visible');$('cartDrawer').showModal();}
+    const addButton=target.closest('[data-add]');if(addButton){flyProductToCart(addButton);add(Number(addButton.dataset.add));}
+    if(target.closest('.added-popup-close,[data-added-continue]'))document.getElementById('addedCartPopup')?.classList.remove('is-visible');
+    if(target.closest('[data-added-checkout]')){document.getElementById('addedCartPopup')?.classList.remove('is-visible');$('cartDrawer').showModal();}
     const detail=target.closest('[data-detail]');if(detail){const p=products.find(x=>x.id===Number(detail.dataset.detail));if(!p)return;$('productDialog').innerHTML=`<button class="close-dialog icon-button" aria-label="Close product">×</button><div class="detail-layout"><div class="detail-art">${artwork(p)}</div><div><p class="eyebrow">${esc(p.category)} · ${esc(p.size)}</p><h2>${esc(p.name)}</h2><p>${esc(p.description)}</p><p>${money(p.price)}</p><p class="cart-note">Catalogue preview. Products and prices require verification. Placeholder illustrations are not official product photos.</p><button class="primary" data-add="${p.id}" ${p.stock===0?'disabled':''}>${esc(ui.addButton)}</button></div></div>`;$('productDialog').showModal();}
     const close=target.closest('.close-dialog');if(close)close.closest('dialog').close();
   });
