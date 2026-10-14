@@ -71,3 +71,19 @@ html{scroll-padding-top:125px}.topline{padding:7px 20px;font-size:9px;letter-spa
 .category-panel .category .category-art{display:contents}
 .category-panel .category img,.category-panel .category svg{display:block;flex:0 1 auto;width:30px;height:38px;max-width:60%;max-height:48%;object-fit:contain;margin:0;background:#fff}
 .category-panel .category b{font-size:10px;line-height:1.15;text-align:center;max-width:100%;overflow-wrap:anywhere}
+
+/* Mobile scrolling performance: avoid costly effects and let vertical gestures scroll. */
+@media (max-width: 767px) {
+  html { scroll-behavior: auto; }
+  body { overscroll-behavior-y: auto; }
+  .category-panel .categories { touch-action: pan-y pan-x; -webkit-overflow-scrolling: touch; }
+  .category-panel .category { scroll-snap-align: none; }
+  .product-card, .category-panel .category, .hero, .hero::before, .hero::after {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  .product-card, .category-panel .category { transition: none !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+}
